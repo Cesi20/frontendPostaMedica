@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Historia Médica</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #74ebd5, #ACB6E5);
+            margin: 0;
+            color: #444;
+        }
+        .navbar {
+            background-color: #00796b;
+            overflow: hidden;
+            margin-bottom: 20px;
+            border-radius: 0 0 10px 10px;
+        }
+        .navbar a {
+            float: left;
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 14px 20px;
+            text-decoration: none;
+            font-size: 17px;
+        }
+        .navbar a:hover {
+            background-color: #004d40;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            animation: fadeIn 1s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            font-size: 14px;
+        }
+        .form-group input, .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+            font-size: 14px;
+        }
+        .form-group button {
+            padding: 12px 20px;
+            background: #00796b;
+            border: none;
+            color: #fff;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background 0.3s, transform 0.2s;
+        }
+        .form-group button:hover {
+            background: #004d40;
+            transform: translateY(-2px);
+        }
+        .history-list {
+            margin-top: 30px;
+        }
+        .history-list table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        .history-list th, .history-list td {
+            padding: 12px;
+            border: 1px solid #ddd;
+            text-align: left;
+            font-size: 14px;
+        }
+        .history-list th {
+            background: #f8f9fa;
+            font-weight: bold;
+            color: #555;
+        }
+        .history-list td button {
+            padding: 8px 12px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 12px;
+            margin-right: 5px;
+            transition: background 0.3s;
+        }
+        .history-list .edit {
+            background: #ffc107;
+            color: #fff;
+        }
+        .history-list .edit:hover {
+            background: #e0a800;
+        }
+        .history-list .delete {
+            background: #dc3545;
+            color: #fff;
+        }
+        .history-list .delete:hover {
+            background: #c82333;
+        }
+    </style>
+</head>
+<body>
+
+<div class="navbar">
+    <a href="addpatient.html">Datos del Paciente</a>
+    <a href="historypatient.html">Historia Médica</a>
+</div>
+<div class="container">
+    <h1>Gestión de Historia Médica</h1>
+    <div class="form-group">
+        <label for="recordNumber">Número de Historia</label>
+        <input type="text" id="recordNumber" placeholder="Ingrese el número de historia" required>
+    </div>
+    <div class="form-group">
+        <label for="visitDate">Fecha de Consulta</label>
+        <input type="date" id="visitDate" required>
+    </div>
+    <div class="form-group">
+        <label for="doctor">Médico Tratante</label>
+        <input type="text" id="doctor" placeholder="Ingrese el nombre del médico" required>
+    </div>
+    <div class="form-group">
+        <label for="reason">Motivo de la Consulta</label>
+        <textarea id="reason" rows="3" placeholder="Ingrese el motivo de la consulta" required></textarea>
+    </div>
+    <div class="form-group">
+        <label for="diagnosis">Diagnóstico</label>
+        <textarea id="diagnosis" rows="3" placeholder="Ingrese el diagnóstico" required></textarea>
+    </div>
+    <div class="form-group">
+        <label for="treatment">Tratamiento Prescrito</label>
+        <textarea id="treatment" rows="3" placeholder="Ingrese el tratamiento prescrito" required></textarea>
+    </div>
+    <div class="form-group">
+        <label for="notes">Observaciones</label>
+        <textarea id="notes" rows="3" placeholder="Ingrese observaciones adicionales"></textarea>
+    </div>
+    <div class="form-group">
+        <button id="addHistory">Agregar Historia Médica</button>
+    </div>
+    <div class="history-list">
+        <table>
+            <thead>
+                <tr>
+                    <th>Número de Historia</th>
+                    <th>Fecha de Consulta</th>
+                    <th>Médico Tratante</th>
+                    <th>Motivo de la Consulta</th>
+                    <th>Diagnóstico</th>
+                    <th>Tratamiento Prescrito</th>
+                    <th>Observaciones</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody id="historyTableBody">
+                <!-- Datos de historia médica serán insertados aquí dinámicamente -->
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    let medicalHistory = [];
+
+    document.getElementById('addHistory').addEventListener('click', function () {
+        const recordNumber = document.getElementById('recordNumber').value;
+        const visitDate = document.getElementById('visitDate').value;
+        const doctor = document.getElementById('doctor').value;
+        const reason = document.getElementById('reason').value;
+        const diagnosis = document.getElementById('diagnosis').value;
+        const treatment = document.getElementById('treatment').value;
+        const notes = document.getElementById('notes').value;
+
+        if (recordNumber && visitDate && doctor && reason && diagnosis && treatment) {
+            const history = { id: Date.now(), recordNumber, visitDate, doctor, reason, diagnosis, treatment, notes };
+            medicalHistory.push(history);
+            renderTable();
+            document.getElementById('recordNumber').value = '';
+            document.getElementById('visitDate').value = '';
+            document.getElementById('doctor').value = '';
+            document.getElementById('reason').value = '';
+            document.getElementById('diagnosis').value = '';
+            document.getElementById('treatment').value = '';
+            document.getElementById('notes').value = '';
+        }
+    });
+
+    function renderTable() {
+        const tableBody = document.getElementById('historyTableBody');
+        tableBody.innerHTML = '';
+        medicalHistory.forEach(history => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${history.recordNumber}</td>
+                <td>${history.visitDate}</td>
+                <td>${history.doctor}</td>
+                <td>${history.reason}</td>
+                <td>${history.diagnosis}</td>
+                <td>${history.treatment}</td>
+                <td>${history.notes}</td>
+                <td>
+                    <button class="edit" onclick="editHistory(${history.id})">Editar</button>
+                    <button class="delete" onclick="deleteHistory(${history.id})">Eliminar</button>
+                </td>
+            `;
+            tableBody.appendChild(row);
+        });
+    }
+
+    function editHistory(id) {
+        const history = medicalHistory.find(h => h.id === id);
+        if (history) {
+            document.getElementById('recordNumber').value = history.recordNumber;
+            document.getElementById('visitDate').value = history.visitDate;
+            document.getElementById('doctor').value = history.doctor;
+            document.getElementById('reason').value = history.reason;
+            document.getElementById('diagnosis').value = history.diagnosis;
+            document.getElementById('treatment').value = history.treatment;
+            document.getElementById('notes').value = history.notes;
+            deleteHistory(id);
+        }
+    }
+
+    function deleteHistory(id) {
+        medicalHistory = medicalHistory.filter(history => history.id !== id);
+        renderTable();
+    }
+</script>
+
+</body>
+</html>

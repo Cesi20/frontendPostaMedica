@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login & Register</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #74ebd5, #ACB6E5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            width: 300px;
+            max-width: 100%;
+        }
+
+        .header {
+            background: #00796b;
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+            font-size: 24px;
+        }
+
+        .form-container {
+            padding: 30px;
+        }
+
+        .form-container form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-container input {
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 10px;
+            margin-bottom: 15px;
+            font-size: 16px;
+        }
+
+        .form-container button {
+            background: #00796b;
+            border: none;
+            color: #fff;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+            font-size: 16px;
+        }
+
+        .form-container button:hover {
+            background: #004d40;
+        }
+
+        .toggle {
+            text-align: center;
+            margin-top: 15px;
+        }
+
+        .toggle a {
+            color: #00796b;
+            text-decoration: none;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container" id="container">
+    <div class="header" id="header">Login</div>
+    <div class="form-container">
+        <form id="loginForm">
+            <input type="email" id="loginEmail" placeholder="Correo Electrónico" required>
+            <input type="password" id="loginPassword" placeholder="Contraseña" required>
+            <button type="submit">Login</button>
+        </form>
+        <div class="toggle">
+            <span>¿No tienes una cuenta? <a href="#" id="showRegister">Regístrate</a></span>
+        </div>
+    </div>
+</div>
+
+<script>
+    const container = document.getElementById('container');
+    const header = document.getElementById('header');
+    const loginForm = document.getElementById('loginForm');
+    const showRegister = document.getElementById('showRegister');
+
+    loginForm.addEventListener('submit', (event) => {
+        event.preventDefault();
+        window.location.href = 'addpatient.html'; // Redirige a la página de pacientes después del login
+    });
+
+    showRegister.addEventListener('click', () => {
+        container.innerHTML = `
+            <div class="header">Register</div>
+            <div class="form-container">
+                <form id="registerForm">
+                    <input type="text" id="registerName" placeholder="Nombre" required>
+                    <input type="email" id="registerEmail" placeholder="Correo Electrónico" required>
+                    <input type="password" id="registerPassword" placeholder="Contraseña" required>
+                    <button type="submit">Regístrate</button>
+                </form>
+                <div class="toggle">
+                    <span>¿Ya tienes una cuenta? <a href="#" id="showLogin">Login</a></span>
+                </div>
+            </div>
+        `;
+
+        const showLogin = document.getElementById('showLogin');
+        const registerForm = document.getElementById('registerForm');
+
+        registerForm.addEventListener('submit', (event) => {
+            event.preventDefault();
+            window.location.href = 'addpatient.html'; // Redirige a la página de pacientes después del registro
+        });
+
+        showLogin.addEventListener('click', () => {
+            location.reload();
+        });
+    });
+</script>
+
+</body>
+</html>

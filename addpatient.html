@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Datos de Paciente</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #e0f7fa;
+            margin: 0;
+            padding: 0;
+        }
+        .navbar {
+            background-color: #00796b;
+            overflow: hidden;
+            border-radius: 0 0 10px 10px;
+        }
+        .navbar a {
+            float: left;
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 14px 20px;
+            text-decoration: none;
+            font-size: 17px;
+        }
+        .navbar a:hover {
+            background-color: #004d40;
+        }
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            text-align: center;
+            color: #00796b;
+            margin-bottom: 20px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #b2dfdb;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+        .form-group button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background-color: #00796b;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .form-group button:hover {
+            background-color: #004d40;
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <a href="addpatient.html">Datos del Paciente</a>
+        <a href="historypatient.html">Historia Médica</a>
+    </div>
+    <div class="container">
+        <h2>Gestión de Datos de Paciente</h2>
+        <form id="patientForm">
+            <div class="form-group">
+                <label for="historyNumber">Número de Historia:</label>
+                <input type="text" id="historyNumber" name="historyNumber" required>
+            </div>
+            <div class="form-group">
+                <label for="idNumber">Número de Identificación:</label>
+                <input type="text" id="idNumber" name="idNumber" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Correo Electrónico:</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div class="form-group">
+                <label for="maritalStatus">Estado Civil:</label>
+                <select id="maritalStatus" name="maritalStatus" required>
+                    <option value="">Seleccione...</option>
+                    <option value="soltero">Soltero</option>
+                    <option value="casado">Casado</option>
+                    <option value="divorciado">Divorciado</option>
+                    <option value="viudo">Viudo</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="occupation">Ocupación:</label>
+                <input type="text" id="occupation" name="occupation" required>
+            </div>
+            <div class="form-group">
+                <button type="submit">Guardar Datos</button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('patientForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const historyNumber = document.getElementById('historyNumber').value;
+            const idNumber = document.getElementById('idNumber').value;
+            const email = document.getElementById('email').value;
+            const maritalStatus = document.getElementById('maritalStatus').value;
+            const occupation = document.getElementById('occupation').value;
+
+            console.log('Datos del Paciente:');
+            console.log('Número de Historia:', historyNumber);
+            console.log('Número de Identificación:', idNumber);
+            console.log('Correo Electrónico:', email);
+            console.log('Estado Civil:', maritalStatus);
+            console.log('Ocupación:', occupation);
+
+            alert('Datos guardados exitosamente');
+            this.reset();
+        });
+    </script>
+</body>
+</html>

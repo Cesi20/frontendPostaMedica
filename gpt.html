@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patient and Medical History Management</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f5f5;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .form-group button {
+            padding: 10px 20px;
+            background: #007bff;
+            border: none;
+            color: #fff;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .form-group button:hover {
+            background: #0056b3;
+        }
+
+        .list {
+            margin-top: 20px;
+        }
+
+        .list table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .list th, .list td {
+            padding: 10px;
+            border: 1px solid #ddd;
+        }
+
+        .list th {
+            background: #f8f9fa;
+            font-weight: bold;
+        }
+
+        .list td button {
+            padding: 5px 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .list .edit {
+            background: #ffc107;
+            color: #fff;
+            margin-right: 5px;
+        }
+
+        .list .delete {
+            background: #dc3545;
+            color: #fff;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: center;
+            background: #007bff;
+            padding: 10px;
+        }
+
+        .navbar a {
+            color: #fff;
+            padding: 10px 20px;
+            text-decoration: none;
+            transition: background 0.3s;
+        }
+
+        .navbar a:hover {
+            background: #0056b3;
+        }
+
+        .content {
+            display: none;
+        }
+
+        .content.active {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+
+<div class="navbar">
+    <a href="#" id="addPatientNav">Add Patients</a>
+    <a href="#" id="viewHistoryNav">View Medical History</a>
+</div>
+
+<div class="container">
+    <div id="addPatientView" class="content active">
+        <h1>Patient Management</h1>
+        <div class="form-group">
+            <label for="recordNumber">Record Number</label>
+            <input type="text" id="recordNumber" placeholder="Enter record number">
+        </div>
+        <div class="form-group">
+            <label for="name">Name</label>
+            <input type="text" id="name" placeholder="Enter patient name">
+        </div>
+        <div class="form-group">
+            <label for="age">Age</label>
+            <input type="number" id="age" placeholder="Enter patient age">
+        </div>
+        <div class="form-group">
+            <label for="gender">Gender</label>
+            <select id="gender">
+                <option value="">Select gender</option>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+                <option value="Other">Other</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="dob">Date of Birth</label>
+            <input type="date" id="dob">
+        </div>
+        <div class="form-group">
+            <label for="phone">Phone</label>
+            <input type="text" id="phone" placeholder="Enter patient phone number">
+        </div>
+        <div class="form-group">
+            <label for="address">Address</label>
+            <input type="text" id="address" placeholder="Enter patient address">
+        </div>
+        <div class="form-group">
+            <button id="addPatient">Add Patient</button>
+        </div>
+        <div class="list">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Record Number</th>
+                        <th>Name</th>
+                        <th>Age</th>
+                        <th>Gender</th>
+                        <th>Date of Birth</th>
+                        <th>Phone</th>
+                        <th>Address</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="patientTableBody">
+                    <!-- Patient data will be inserted here dynamically -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div id="viewHistoryView" class="content">
+        <h1>Medical History Management</h1>
+        <div class="form-group">
+            <label for="recordNumberHistory">Record Number</label>
+            <input type="text" id="recordNumberHistory" placeholder="Enter record number" required>
+        </div>
+        <div class="form-group">
+            <label for="visitDate">Visit Date</label>
+            <input type="date" id="visitDate" required>
+        </div>
+        <div class="form-group">
+            <label for="diagnosis">Diagnosis</label>
+            <textarea id="diagnosis" rows="3" placeholder="Enter diagnosis" required></textarea>
+        </div>
+        <div class="form-group">
+            <label for="treatment">Treatment</label>
+            <textarea id="treatment" rows="3" placeholder="Enter treatment" required></textarea>
+        </div>
+        <div class="form-group">
+            <label for="notes">Additional Notes</label>
+            <textarea id="notes" rows="3" placeholder="Enter additional notes"></textarea>
+        </div>
+        <div class="form-group">
+            <button id="addHistory">Add Medical History</button>
+        </div>
+        <div class="list">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Record Number</th>
+                        <th>Visit Date</th>
+                        <th>Diagnosis</th>
+                        <th>Treatment</th>
+                        <th>Notes</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="historyTableBody">
+                    <!-- Medical history data will be inserted here dynamically -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script>
+    let patients = [];
+    let medicalHistory = [];
+
+    document.getElementById('addPatient').addEventListener('click', function () {
+        const recordNumber = document.getElementById('recordNumber').value;
+        const name = document.getElementById('name').value;
+        const age = document.getElementById('age').value;
+        const gender = document.getElementById('gender').value;
+        const dob = document.getElementById('dob').value;
+        const phone = document.getElementById('phone').value;
+        const address = document.getElementById('address').value;
+
+        if (recordNumber && name && age && gender && dob && phone && address) {
+            const patient = { id: Date.now(), recordNumber, name, age, gender, dob, phone, address };
+            patients.push(patient);
+            renderPatientTable();
+            document.getElementById('recordNumber').value = '';
+            document.getElementById('name').value = '';
+            document.getElementById('age').value = '';
+            document.getElementById('gender').value = '';
+            document.getElementById('dob').value = '';
+            document.getElementById('phone').value = '';
+            document.getElementById('address').value = '';
+        }
+    });
+
+    document.getElementById('addHistory').addEventListener('click', function () {
+        const recordNumber = document.getElementById('recordNumberHistory').value;
+        const visitDate = document.getElementById('visitDate').value;
+        const diagnosis = document.getElementById('diagnosis').value;
+        const treatment = document.getElementById('treatment').value;
+        const notes = document.getElementById('notes').value;
+
+        if (recordNumber && visitDate && diagnosis && treatment) {
+            const history = { id: Date.now(), recordNumber, visitDate, diagnosis, treatment, notes };
+            medicalHistory.push(history);
+            renderHistoryTable();
+            document.getElementById('recordNumberHistory').value = '';
+            document.getElementById('visitDate').value = '';
+            document.getElementById('diagnosis').value = '';
+            document.getElementById('treatment').value = '';
+            document.getElementById('notes').value = '';
+        }
+    });
+
+    function renderPatientTable() {
+        const tableBody = document.getElementById('patientTableBody');
+        tableBody.innerHTML = '';
+        patients.forEach(patient => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${patient.recordNumber}</td>
+                <td>${patient.name}</td>
+                <td>${patient.age}</td>
+                <td>${patient.gender}</td>
+                <td>${patient.dob}</td>
+                <td>${patient.phone}</td>
+                <td>${patient.address}</td>
+                <td>
+                    <button class="edit" onclick="editPatient(${patient.id})">Edit</button>
+                    <button class="delete" onclick="deletePatient(${patient.id})">Delete</button>
+                </td>
+            `;
+            tableBody.appendChild(row);
+        });
+    }
+
+    function renderHistoryTable() {
+        const tableBody = document.getElementById('historyTableBody');
+        tableBody.innerHTML = '';
+        medicalHistory.forEach(history => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${history.recordNumber}</td>
+                <td>${history.visitDate}</td>
+                <td>${history.diagnosis}</td>
+                <td>${history.treatment}</td>
+                <td>${history.notes}</td>
+                <td>
+                    <button class="edit" onclick="editHistory(${history.id})">Edit</button>
+                    <button class="delete" onclick="deleteHistory(${history.id})">Delete</button>
+                </td>
+            `;
+            tableBody.appendChild(row);
+        });
+    }
+
+    function editPatient(id) {
+        const patient = patients.find(p => p.id === id);
+        if (patient) {
+            document.getElementById('recordNumber').value = patient.recordNumber;
+            document.getElementById('name').value = patient.name;
+            document.getElementById('age').value = patient.age;
+            document.getElementById('gender').value = patient.gender;
+            document.getElementById('dob').value = patient.dob;
+            document.getElementById('phone').value = patient.phone;
+            document.getElementById('address').value = patient.address;
+            deletePatient(id);
+        }
+    }
+
+    function deletePatient(id) {
+        patients = patients.filter(patient => patient.id !== id);
+        renderPatientTable();
+    }
+
+    function editHistory(id) {
+        const history = medicalHistory.find(h => h.id === id);
+        if (history) {
+            document.getElementById('recordNumberHistory').value = history.recordNumber;
+            document.getElementById('visitDate').value = history.visitDate;
+            document.getElementById('diagnosis').value = history.diagnosis;
+            document.getElementById('treatment').value = history.treatment;
+            document.getElementById('notes').value = history.notes;
+            deleteHistory(id);
+        }
+    }
+
+    function deleteHistory(id) {
+        medicalHistory = medicalHistory.filter(history => history.id !== id);
+        renderHistoryTable();
+    }
+
+    document.getElementById('addPatientNav').addEventListener('click', function () {
+        document.getElementById('addPatientView').classList.add('active');
+        document.getElementById('viewHistoryView').classList.remove('active');
+    });
+
+    document.getElementById('viewHistoryNav').addEventListener('click', function () {
+        document.getElementById('addPatientView').classList.remove('active');
+        document.getElementById('viewHistoryView').classList.add('active');
+    });
+</script>
+
+</body>
+</html>
